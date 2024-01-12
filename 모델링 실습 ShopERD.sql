@@ -22,8 +22,33 @@ insert into `Order` set `orderId`='c105', `orderProduct`=2, `orderCount`=1, `ord
 insert into `Order` set `orderNo`=11, `orderId`='c103', `orderProduct`=8, `orderCount`=5, `orderDate`=NOW();
 
 #실습 6-3
+select 	
+    `orderNo`,
+    `name`,
+    `prodName`,
+    `orderCount`,
+    `orderDate`    
+ from `Order` as a
+join `Customer` as b on a.orderId = b.custId
+join `Product` as c on a.orderProduct = c.prodNo;
+
+select 	
+    `orderNo`,
+    `prodNo`,        
+    `prodName`,
+    `price`,
+    `orderCount`,
+    `orderDate`    
+ from `Order` as a
+join `Customer` as b on a.orderId = b.custId
+join `Product` as c on a.orderProduct = c.prodNo
+where `name`='김유신';
 
 
+select 
+	SUM(`price` * `orderCount`)
+from `Order` as a
+join `Product` as b on a.orderProduct = b.prodNo;
 
 
 
