@@ -164,7 +164,54 @@ group by a.`orderNo`;
 
 
 #문제6
+select 
+	`prodNo`, 
+	`prodName`, 
+	`prodPrice`, 
+	`prodDiscount`, 
+	floor(`prodPrice` * (1 - `prodDiscount`/100)) as `할인가`
+from `Products`;
+
 #문제7
+select 
+	a.prodNo,
+    a.prodName,
+    a.prodPrice,
+    a.prodStock,
+    b.sellerManager
+from `Products` as a
+join `Sellers` as b on a.sellerNo = b.sellerNo
+where b.`sellerManager` = '고소영';
+
 #문제8
+select 
+	b.`sellerNo`,
+    b.`sellerBizName`,
+    b.`sellerManager`,
+    b.`sellerPhone`
+from `Products` as a
+right join `Sellers` as b on a.sellerNo = b.sellerNo
+where `prodNo` is null;
+
 #문제9
+select 
+	`orderNo`,
+    SUM(`할인가`) as `최종총합`
+from 
+	(select *,
+			floor((`itemPrice` * (1 - `itemDiscount`/100)) * `itemCount`) as `할인가`
+			from `OrderItems`) as a
+group by `orderNo`
+having `최종총합` >= 100000
+order by `최종총합` desc;
+		
+
 #문제10
+select 
+	`userName`,
+    group_concat(`prodName` separator ',') as `상품들`
+from `orders` 		as a
+join `OrderItems` 	as b on a.orderNo = b.orderNo
+join `Users` 		as c on a.userId  = c.userId
+join `Products` 	as d on b.prodNo  = d.prodNo
+where `userName` = '장보고';
