@@ -163,6 +163,7 @@ join `Products` 	as d on b.prodNo  = d.prodNo
 group by a.`orderNo`;
 
 
+
 #문제6
 select 
 	`prodNo`, 
@@ -204,7 +205,15 @@ from
 group by `orderNo`
 having `최종총합` >= 100000
 order by `최종총합` desc;
-		
+
+-- 다른방법		
+SELECT 
+	`orderNo`,
+	SUM(FLOOR(`itemPrice` * (1 - `itemDiscount` / 100) * `itemCount`)) AS `최종총합` 
+FROM `OrderItems`
+GROUP BY `orderNo`
+HAVING `최종총합` >= 100000
+ORDER BY `최종총합` DESC;        
 
 #문제10
 select 
@@ -215,3 +224,4 @@ join `OrderItems` 	as b on a.orderNo = b.orderNo
 join `Users` 		as c on a.userId  = c.userId
 join `Products` 	as d on b.prodNo  = d.prodNo
 where `userName` = '장보고';
+
