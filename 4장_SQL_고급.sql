@@ -47,7 +47,6 @@ INSERT INTO Dept VALUES (104, '인사부', '051-512-1004');
 INSERT INTO Dept VALUES (105, '기획부', '051-512-1005');
 SELECT * FROM Dept;
 
-
 -- Sale 테이블 데이터 입력 ------------------------------------------------------------------------
 INSERT INTO Sale (empno, year, month, price) VALUES (1001, 2018, 1,  98100);
 INSERT INTO Sale (empno, year, month, price) VALUES (1002, 2018, 1, 136000);
@@ -92,11 +91,19 @@ INSERT INTO Sale (empno, year, month, price) VALUES (1004, 2021, 2, 106000);
 INSERT INTO Sale (empno, year, month, price) VALUES (1005, 2021, 2, 112000);
 INSERT INTO Sale (empno, year, month, price) VALUES (1001, 2021, 3, 47000);
 INSERT INTO Sale (empno, year, month, price) VALUES (1006, 2021, 3, 36000);
--- ------------------------------------------------------------------------
 SELECT * FROM Sale;
-
+-- ------------------------------------------------------------------------
 
 # 실습 4-3
+SELECT * FROM Employee WHERE name != '김춘추';
+SELECT * FROM Employee WHERE name <> '김춘추'; -- != 연산자와 동일
+SELECT * FROM Employee WHERE job = '사원' OR job = '대리';
+SELECT * FROM Employee WHERE job IN ('사원', '대리'); 	-- 위 OR 조건절과 동일
+SELECT * FROM Employee WHERE name LIKE '김%'; 		-- % : 와일드카드, 아무 문자열
+SELECT * FROM Employee WHERE name LIKE '%신'; 		-- 이름이 '신'으로 끝나는 직원
+SELECT * FROM Employee WHERE name LIKE '이_'; 		-- 이름이 '이'씨로 시작하는 두글자 직원
+SELECT * FROM Employee WHERE job is NULL; 			-- job이 NULL인 직원
+
 # 실습 4-4
 # 실습 4-5
 # 실습 4-6
