@@ -8,6 +8,15 @@ SHOW INDEX FROM User2;
 SHOW INDEX FROM User3;
 SELECT * FROM User3; 
 
+CREATE TABLE IndexTest (
+	no1 INT AUTO_INCREMENT PRIMARY KEY,
+    no2 INT
+);
+INSERT INTO IndexTest (no2) SELECT no2 FROM IndexTest;
+UPDATE IndexTest SET no2 = 103 WHERE no1 = 2097150;
+SELECT * FROM IndexTest WHERE no1 = 2097150;
+
+
 #실습 5-2
 CREATE INDEX idx_user1_userid ON User1(userid);
 ANALYZE TABLE User1;
