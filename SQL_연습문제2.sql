@@ -90,14 +90,118 @@ INSERT INTO `bank_transaction` (`t_a_no`, `t_dist`, `t_amount`, `t_datetime`) VA
 #실습 2-18
 #실습 2-19
 #실습 2-20
+SELECT 
+	COUNT(IF(`t_dist` = 1, 1, NULL)) AS `입금 건수`, 
+	COUNT(IF(`t_dist` = 2, 1, NULL)) AS `출금 건수`, 
+	COUNT(IF(`t_dist` = 3, 1, NULL)) AS `조회 건수`
+FROM `bank_transaction`;
+
 #실습 2-21
+SELECT 
+	`t_dist`,
+    CASE
+		WHEN (`t_dist` = 1) THEN '입금'
+		WHEN (`t_dist` = 2) THEN '출금'
+		WHEN (`t_dist` = 3) THEN '조회'    
+    END AS `type`,
+    `t_a_no`,
+    `t_amount`	
+    FROM 
+	`bank_transaction`;
+
 #실습 2-22
+SELECT 
+	t_dist,
+    COUNT(`t_no`)
+FROM `bank_transaction` 
+GROUP BY `t_dist`;
+
 #실습 2-23
+SELECT 
+	`t_a_no`,
+	`t_dist`,
+    SUM(`t_amount`)
+FROM `bank_transaction` 
+WHERE `t_dist` = 1
+GROUP BY `t_a_no`;
+
+
 #실습 2-24
+SELECT 
+	`t_a_no`,
+	`t_dist`,
+    SUM(`t_amount`) AS `합계`
+FROM `bank_transaction` 
+WHERE `t_dist` = 1
+GROUP BY `t_a_no`
+HAVING `합계` >= 100000
+ORDER BY `합계` DESC;
+
 #실습 2-25
+SELECT * FROM `bank_account` AS a
+JOIN `bank_customer` AS b
+ON a.a_c_no = b.c_no;
+
+
 #실습 2-26
+SELECT
+	`a_no` AS `계좌번호`, 
+	`a_item_name` AS `계좌이름`,
+	`c_no` AS `주민번호(사업자번호)`,
+	`c_name` AS `고객명`,
+	`a_balance` AS `현재잔액`
+FROM `bank_account` AS a
+JOIN `bank_customer` AS b
+ON a.a_c_no = b.c_no;
+
+
 #실습 2-27
+SELECT * FROM `bank_transaction` AS a
+JOIN `bank_account` AS b
+ON a.t_a_no = b.a_no;
+
 #실습 2-28
+SELECT 
+	`t_no` AS `거래번호`,
+	`t_a_no` AS `계좌번호`,
+	`a_c_no` AS `고객번호(주민번호)`,
+	`t_dist` AS `거래구분`,
+	`t_amount` AS `거래금액`,
+	`t_datetime` AS `거래일자`
+ FROM `bank_account` AS a
+JOIN `bank_transaction` AS b
+ON a.a_no = b.t_a_no;
+
 #실습 2-29
+SELECT 
+	`t_no`,
+	`a_no`,
+	`c_no`,
+	`t_dist`,
+	`a_item_name`,
+	`c_name`,
+	`t_amount`,
+	`t_datetime`
+FROM `bank_transaction` AS a
+JOIN `bank_account` AS b ON a.t_a_no = b.a_no
+JOIN `bank_customer` AS c ON b.a_c_no = c.c_no
+WHERE `t_dist` = 1
+ORDER BY `t_amount` DESC;
+
+
 #실습 2-30
+SELECT 
+	ANY_VALUE(`t_no`) AS `번호`,
+	ANY_VALUE(`a_no`) AS `계좌번호`,
+	`c_no`,
+	ANY_VALUE(`t_dist`) AS `구분`,
+	ANY_VALUE(`a_item_name`) AS `계좌이름`,
+	ANY_VALUE(`c_name`) AS `고객명`,
+    COUNT(`t_no`) AS `거래건수`
+FROM `bank_transaction` AS a
+JOIN `bank_account` AS b ON a.t_a_no = b.a_no
+JOIN `bank_customer` AS c ON b.a_c_no = c.c_no
+WHERE `t_dist` IN (1, 2) AND `c_dist` = 1
+GROUP BY `c_no`
+ORDER BY `구분`, `거래건수` DESC;
 
