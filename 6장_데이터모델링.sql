@@ -1,0 +1,101 @@
+#날짜 : 2026/05/20
+#이름 : 김철학
+#내용 : 6장 데이터 모델링 실습
+
+#실습 6-1
+-- Shop ERD 실습하기
+USE ShopERD;
+
+#실습 6-2
+INSERT INTO Customer (custId, name, hp, addr, rdate) 
+	VALUES ('c107', '김유신', '010-1234-1001', '경남 김해시', '2023-01-01');
+INSERT INTO Customer VALUES ('c102', '김춘추', '010-1234-1002', '경남 경주시', '2023-01-02');
+INSERT INTO Customer VALUES ('c103', '장보고', '010-1234-1003', '전남 완도군', '2023-01-03');
+INSERT INTO Customer VALUES ('c104', '강감찬', '010-1234-1004', '서울시 관악구', '2023-01-04');
+INSERT INTO Customer VALUES ('c105', '이순신', '010-1234-1005', '부산시 금정구', '2023-01-05');
+SELECT * FROM Customer;
+
+INSERT INTO Product VALUES (1, '새우깡', 5000, 1500, '농심');
+INSERT INTO Product VALUES (2, '초코파이', 2500, 2500, '오리온');
+INSERT INTO Product VALUES (3, '포카칩', 3600, 1700, '오리온');
+INSERT INTO Product VALUES (4, '양파링', 1250, 1800, '농심');
+INSERT INTO Product VALUES (5, '죠리퐁', 2200, NULL, '크라운');
+SELECT * FROM Product;
+
+INSERT INTO `Order` (orderId, orderProduct, orderCount, orderDate) 
+													VALUES ('c102', 3, 2, NOW());
+INSERT INTO `Order` (orderId, orderProduct, orderCount, orderDate) 
+													VALUES ('c101', 4, 1, NOW());
+INSERT INTO `Order` (orderId, orderProduct, orderCount, orderDate) 
+													VALUES ('c102', 1, 1, NOW());
+INSERT INTO `Order` (orderId, orderProduct, orderCount, orderDate) 
+													VALUES ('c103', 5, 5, NOW());
+INSERT INTO `Order` (orderId, orderProduct, orderCount, orderDate) 
+	VALUES ('c101', 9, 1, NOW());    
+SELECT * FROM `Order`;
+
+#실습 6-3
+SELECT 
+	o.orderNo,
+    c.name,
+    p.prodName,
+    o.orderCount,
+    o.orderDate
+	FROM `Order` AS o
+    JOIN `Customer` AS c ON o.orderId = c.custId
+    JOIN `Product` AS p ON o.orderProduct = p.prodNo;
+    
+SELECT 
+	o.orderNo,
+    o.orderProduct,    
+    p.prodName,
+    p.price,
+    o.orderCount,
+    o.orderDate
+	FROM `Order` AS o
+    JOIN `Customer` AS c ON o.orderId = c.custId
+    JOIN `Product` AS p ON o.orderProduct = p.prodNo
+    WHERE name = '김유신';
+
+SELECT SUM(price * orderCount) as `총주문금액`
+	FROM `Order` AS o
+    JOIN `Product` AS p ON o.orderProduct = p.prodNo;
+
+#실습 6-4
+-- Bank ERD 실습하기
+
+USE BankERD;
+
+#실습 6-5
+insert into `bank_customer` values ('730423-1000001', '김유신', 1, '010-1234-1001', '경남 김해시');
+insert into `bank_customer` values ('730423-1000002', '김춘추', 1, '010-1234-1002', '경남 경주시');
+insert into `bank_customer` values ('750423-1000003', '장보고', 1, '010-1234-1003', '전남 완도군');
+insert into `bank_customer` values ('102-12-51094', '(주)정보산업', 2, '051-500-1004', '부산시 부산진구');
+insert into `bank_customer` values ('930423-1000005', '이순신', 1, '010-1234-1005', '서울 종로구');
+select * from `bank_customer`;
+
+insert into `bank_account` values ('101-11-1001', 'S1', '자유저축예금', '730423-1000001', 1550000, '2011-04-11');
+insert into `bank_account` values ('101-11-1002', 'S1', '자유저축예금', '930423-1000005', 260000, '2011-05-12');
+insert into `bank_account` values ('101-11-1003', 'S1', '자유저축예금', '750423-1000003', 75000, '2011-06-13');
+insert into `bank_account` values ('101-12-1001', 'S2', '기업저축예금', '102-12-51094', 15000000, '2011-07-14');
+insert into `bank_account` values ('101-13-1001', 'S3', '정기저축예금', '730423-1000002', 1200000, '2011-08-15');
+select * from `bank_account`;
+
+insert into `bank_transaction` set `t_a_no`='101-11-1001', `t_dist`=1, `t_amount`=50000, `t_datetime`=NOW();
+insert into `bank_transaction` set `t_a_no`='101-12-1001', `t_dist`=2, `t_amount`=1000000, `t_datetime`=NOW();
+insert into `bank_transaction` set `t_a_no`='101-11-1002', `t_dist`=3, `t_amount`=260000, `t_datetime`=NOW();
+insert into `bank_transaction` set `t_a_no`='101-11-1002', `t_dist`=2, `t_amount`=100000, `t_datetime`=NOW();
+insert into `bank_transaction` set `t_a_no`='101-11-1003', `t_dist`=3, `t_amount`=750000, `t_datetime`=NOW();
+insert into `bank_transaction` set `t_a_no`='101-11-1001', `t_dist`=1, `t_amount`=150000, `t_datetime`=NOW();
+select * from `bank_transaction`;
+
+#실습 6-6
+
+
+
+#실습 6-7
+
+
+
+
+
