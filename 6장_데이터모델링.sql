@@ -132,6 +132,59 @@ insert into `Register` values ('20210213', 103, 48, 40, null, null);
 select * from Register;
 
 #실습 6-9
+select 
+	stdNo,
+    stdName,
+    stdHp,
+    stdYear
+    from student as s
+    LEFT JOIN Register as r ON s.stdNo = r.regStdNo
+    WHERE r.regStdNo is null;
+
+
+select 
+	`regStdNo`, 
+    `regLecNo`, 
+    `regMidScore`,
+    `regFinalScore`,
+    `regMidScore` + `regFinalScore` as `합`,
+    case
+		when (`regMidScore` + `regFinalScore` >= 90) then 'A'
+		when (`regMidScore` + `regFinalScore` >= 80) then 'B'
+		when (`regMidScore` + `regFinalScore` >= 70) then 'C'
+		when (`regMidScore` + `regFinalScore` >= 60) then 'D'
+	else 'F'
+    end as `등급`
+from `Register`;
+
+
+SELECT 
+	`stdNo`,
+    `stdName`,
+    `stdYear`,
+    `lecName`,
+    `regMidScore`,
+    `regFinalScore`,
+    `regTotalScore`,
+    `regGrade`
+	FROM Student AS s
+    JOIN Register AS r ON s.stdNo = r.regStdNo
+    JOIN Lecture AS l ON r.regLecNo = l.lecNo
+    WHERE stdYear = 2;
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
