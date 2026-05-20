@@ -90,8 +90,19 @@ insert into `bank_transaction` set `t_a_no`='101-11-1001', `t_dist`=1, `t_amount
 select * from `bank_transaction`;
 
 #실습 6-6
+SELECT * FROM bank_customer c, bank_account a WHERE c.c_no = a.a_c_no;
 
+SELECT * FROM bank_transaction 
+	WHERE t_a_no = (SELECT a_no FROM bank_account 
+							WHERE a_c_no = (SELECT c_no FROM bank_customer 
+														WHERE c_name = '이순신'));
 
+SELECT * 
+	FROM bank_customer AS c
+    JOIN bank_account AS a ON c.c_no = a.a_c_no
+    WHERE c_dist = 1
+    ORDER BY a_balance DESC
+    LIMIT 1;
 
 #실습 6-7
 
